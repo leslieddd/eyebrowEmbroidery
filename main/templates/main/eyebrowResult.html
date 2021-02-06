@@ -1,0 +1,165 @@
+{% extends "main/base.html" %}
+{% block content %}
+{% load static %}
+<script>
+    $(document).ready(function(){
+        $('.btnSave').click(function(){
+            $('.alert').show()
+        })
+        let switch_language = document.getElementById("switch_language");
+        let result_chinese = document.getElementById("result_chinese");
+        let result_english = document.getElementById("result_english");
+        let chinese_content = document.getElementById("chinese_content");
+        let english_content = document.getElementById("english_content");
+
+        switch_language.onclick = function(){
+            if(switch_language.innerText == "中"){
+                switch_language.innerText = "English";
+                result_chinese.style.display = "block";
+                result_english.style.display = "none";
+                chinese_content.style.display = "block";
+                english_content.style.display = "none";
+            }else{
+                switch_language.innerText = "中";
+                result_chinese.style.display = "none";
+                result_english.style.display = "block";
+                chinese_content.style.display = "none";
+                english_content.style.display = "block";
+            }
+        }
+    });
+</script>
+<style>
+    .alert{
+    display: none;
+    }
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+<button id="switch_language" style="margin-top: 110px; margin-left: 50px">中</button>
+<main id="result_english" role="main" class="container fadeInLeft center">
+    <div class="row">
+        <div class="col-md-5" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;"> Eyebrow Simulation </h2>
+        </div>
+        <div class="col-md-7">
+                <div style="padding: 13px; margin-top: 90px;" class="alert alert-success alert-dismissable">
+                        Success! Image with new eyebrow saved.
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                </div>
+            <!-- {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %} -->
+        </div>
+    </div>
+    <div class="row content-section">
+        <div class="col-md-6" style="border-right: 2px solid gray;">
+            <h5 style="text-align:center">Original Image</h5>
+            {% for cust in cust%}
+            <img class="center" src="{% static 'main/customer/' %}{{ cust }}.jpg" style="border:2px solid gray; border-right: 2px solid gray;" height="500">
+            {% endfor %}
+        </div>
+        <div class="col-md-6" style="padding-left: 30px;">
+            <h5 style="text-align:center">Image with new eyebrow</h5>
+            {% for eyebrow in eyebrowcust %}
+            <img class="center" src="{% static 'main/eyebrow/' %}{{ eyebrow }}_eyebrow.jpg" style="border:2px solid gray" height="500">
+            
+            {% endfor %}
+        </div><br>
+    </div>
+    <br>
+    <div style="display: inline;" align="center">
+        <form class="fadeInLeft" method="POST" action="/eyebrowSim/">
+                        {% csrf_token %}
+            <div style="float: left;">
+
+                        <button class="btn btn-primary" type="submit" name="back">Back</button>
+
+            </div>
+            <div style="float: right;">
+                    <button class="btnSave btn btn-success" type="submit" name="saveBtn" style="float: right;">Save Image</button>
+           </div>
+        </form>
+      </div>
+    <!-- <form class="fadeInLeft" method="POST" action="/eyebrowSim/">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" name="back">Back</button>
+    </form>
+    <button class="btn btn-success" name="btnSave" style="float: right;">Save Image</button> -->
+    <div class="article-metadata"></div>
+</main>
+
+<main id="result_chinese" role="main" class="container fadeInLeft center" style="display: none">
+    <div class="row">
+        <div class="col-md-5" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;"> 眉毛模拟 </h2>
+        </div>
+        <div class="col-md-7">
+                <div style="padding: 13px; margin-top: 90px;" class="alert alert-success alert-dismissable">
+                        成功！ 图片已被保存！
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                </div>
+            <!-- {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %} -->
+        </div>
+    </div>
+    <div class="row content-section">
+        <div class="col-md-6" style="border-right: 2px solid gray;">
+            <h5 style="text-align:center">原来的图片</h5>
+            {% for cust in cust%}
+            <img class="center" src="{% static 'main/customer/' %}{{ cust }}.jpg" style="border:2px solid gray; border-right: 2px solid gray;" height="500">
+            {% endfor %}
+        </div>
+        <div class="col-md-6" style="padding-left: 30px;">
+            <h5 style="text-align:center">有新眉毛的图片</h5>
+            {% for eyebrow in eyebrowcust %}
+            <img class="center" src="{% static 'main/eyebrow/' %}{{ eyebrow }}_eyebrow.jpg" style="border:2px solid gray" height="500">
+
+            {% endfor %}
+        </div><br>
+    </div>
+    <br>
+    <div style="display: inline;" align="center">
+            <div style="float: left;">
+                    <form class="fadeInLeft" method="POST" action="/eyebrowSim/">
+                        {% csrf_token %}
+                        <button class="btn btn-primary" type="submit" name="back">返回</button>
+                    </form>
+            </div>
+            <div style="float: right;">
+                    <button class="btnSave btn btn-success" style="float: right;">保存图片</button>
+           </div>
+      </div>
+    <!-- <form class="fadeInLeft" method="POST" action="/eyebrowSim/">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" name="back">Back</button>
+    </form>
+    <button class="btn btn-success" name="btnSave" style="float: right;">Save Image</button> -->
+    <div class="article-metadata"></div>
+</main>
+
+{% endblock content %}
+
+<script type="text/javascript">
+        $(function(){
+
+        });
+    </script>

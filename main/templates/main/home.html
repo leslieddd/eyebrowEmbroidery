@@ -1,0 +1,268 @@
+{% extends "main/base.html" %}
+{% block content %}
+{% load static %}
+<script>
+    $(document).ready(function () {
+
+        $(function(){
+            let switch_language = document.getElementById("switch_language");
+            let chinese_content = document.getElementById("chinese_content");
+            let english_content = document.getElementById("english_content");
+            let main_content_chinese = document.getElementById("main_content_chinese");
+            let main_content_english = document.getElementById("main_content_english");
+
+            switch_language.onclick = function(){
+                if(switch_language.innerText == "中"){
+                    chinese_content.style.display = "block";
+                    english_content.style.display = "none";
+                    switch_language.innerText = "English";
+                    main_content_chinese.style.display = "block";
+                    main_content_english.style.display = "none";
+                }else{
+                    chinese_content.style.display = "none";
+                    english_content.style.display = "block";
+                    switch_language.innerText = "中";
+                    main_content_chinese.style.display = "none";
+                    main_content_english.style.display = "block";
+                }
+            }
+        });
+
+        $("#choose").click(function () {
+            var e = document.getElementById("option");
+            var strUser = e.options[e.selectedIndex].text;
+
+            if (strUser == "Capture Face") {
+                var x = document.getElementById("upload");
+                x.style.display = "none";
+                var x = document.getElementById("webcam");
+                x.style.display = "block";
+            } else {
+                var x = document.getElementById("upload");
+                x.style.display = "block";
+                var x = document.getElementById("webcam");
+                x.style.display = "none";
+            }
+        });
+
+        $("#choose1").click(function () {
+            var e = document.getElementById("option1");
+            var strUser = e.options[e.selectedIndex].text;
+
+            if (strUser == "拍摄照片") {
+                var x = document.getElementById("upload1");
+                x.style.display = "none";
+                var x = document.getElementById("webcam1");
+                x.style.display = "block";
+            } else {
+                var x = document.getElementById("upload1");
+                x.style.display = "block";
+                var x = document.getElementById("webcam1");
+                x.style.display = "none";
+            }
+        });
+
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function getExtension(filename) {
+            var parts = filename.split('.');
+            return parts[parts.length - 1];
+        }
+
+        function isImage(filename) {
+            var ext = getExtension(filename);
+            switch (ext.toLowerCase()) {
+                case 'jpg':
+                case 'png':
+                    return true;
+            }
+            return false;
+        }
+
+        $(function () {
+            $('#uploadfilebtn1').submit(function () {
+                function failValidation(msg) {
+                    alert(msg); // just an alert for now but you can spice this up later
+                    return false;
+                }
+
+                var file = $('#customFile1');
+                if (!isImage(file.val())) {
+                    return failValidation('请选择一张照片!');
+                } else {
+                    $('#generating').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true,
+                    });
+                }
+            });
+        });
+
+        $(function () {
+            $('#uploadfile').submit(function () {
+                function failValidation(msg) {
+                    alert(msg); // just an alert for now but you can spice this up later
+                    return false;
+                }
+
+                var file = $('#customFile');
+                if (!isImage(file.val())) {
+                    return failValidation('Please select an image file!');
+                } else {
+                    $('#generating').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true,
+                    });
+                }
+            });
+        });
+    });
+</script>
+<style>
+</style>
+<button id="switch_language" style="margin-top: 110px; margin-left: 50px">中</button>
+<main id="main_content_english" role="main" class="container fadeInLeft center">
+    <div class="row">
+        <div class="col-md-4" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;"> Upload Image </h2>
+        </div>
+        <div class="col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            <div style="padding: 13px; margin-top: 90px;" class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 content-section">
+            <font face="Bahnschrift" size="4">Select how you would like to upload image</font>
+            <select class="browser-default custom-select" name="option" id="option" style="width: 26rem;">
+                <option selected>Capture Face</option>
+                <option>Upload Image File</option>
+            </select>
+
+            <button class="btn btn-primary" type="submit" id="choose">Choose Mode</button>
+
+            <form class="fadeInLeft" id="webcam" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <br>Please enter your name: <input type="text" name="cust_name"><br><br>
+                <button style="margin-bottom: 10px;" type="submit" name="webcam">Capture Your Face Here</button>
+                <div class="card bg-info" style="color:white;">
+                    <div class="card-body">Please face towards the camera</div>
+                </div>
+            </form>
+
+            <form class="fadeInLeft" id="upload" method="POST" enctype="multipart/form-data" style="display: none;">
+                {% csrf_token %}
+                <br>Please enter your name: <input type="text" name="cust_name"><br><br>
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="customFile" name="imagecontent">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <i class="fa fa-exclamation" style="color: red;"></i>
+                    <small>Please upload an image file.</small>
+                    <div align="right" style="margin-top: 10px;">
+                        <button id="uploadfilebtn" name="uploadfile" type="submit" class="btn btn-primary">
+                            <font face="Bahnschrift">Upload File</font>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-5">
+            {% for image in cust %}
+            <img src="{% static 'main/customer/' %}{{ image }}.jpg" style="margin-bottom: 10px;" height="600">
+            {% endfor %}
+            <form method="POST" action="/eyebrowSim/">
+                {% csrf_token %}
+                <button id="proceed" class="btn btn-success" type="submit" name="proceed" style="float: right;">Proceed</button>
+            </form>
+        </div><br>
+        <div class="article-metadata"></div>
+    </div>
+</main>
+
+<main id="main_content_chinese" style="display:none" role="main" class="container fadeInLeft center">
+    <div class="row">
+        <div class="col-md-4" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;"> 选择照片 </h2>
+        </div>
+        <div class="col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            <div style="padding: 13px; margin-top: 90px;" class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 content-section">
+            <font face="Bahnschrift" size="4">请选择上传图片的方式</font>
+            <select class="browser-default custom-select" name="option" id="option1" style="width: 26rem;">
+                <option selected>拍摄照片</option>
+                <option>上传照片</option>
+            </select>
+
+            <button class="btn btn-primary" type="submit" id="choose1">选择模式</button>
+
+            <form class="fadeInLeft" id="webcam1" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <br>请输入你的名字: <input type="text" name="cust_name"><br><br>
+                <button style="margin-bottom: 10px;" type="submit" name="webcam">进行拍照</button>
+                <div class="card bg-info" style="color:white;">
+                    <div class="card-body">请面向摄像头</div>
+                </div>
+            </form>
+
+            <form class="fadeInLeft" id="upload1" method="POST" enctype="multipart/form-data" style="display: none;">
+                {% csrf_token %}
+                <br>请输入你的名字： <input type="text" name="cust_name"><br><br>
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="customFile1" name="imagecontent">
+                    <label class="custom-file-label" for="customFile">选择文件</label>
+                    <i class="fa fa-exclamation" style="color: red;"></i>
+                    <small>请上传一张图片</small>
+                    <div align="right" style="margin-top: 10px;">
+                        <button id="uploadfilebtn1" name="uploadfile" type="submit" class="btn btn-primary">
+                            <font face="Bahnschrift">上传文件</font>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-5">
+            {% for image in cust %}
+            <img src="{% static 'main/customer/' %}{{ image }}.jpg" style="margin-bottom: 10px;" height="600">
+            {% endfor %}
+            <form method="POST" action="/eyebrowSim/">
+                {% csrf_token %}
+                <button id="proceed1" class="btn btn-success" type="submit" name="proceed" style="float: right;">进行下一项</button>
+            </form>
+        </div><br>
+        <div class="article-metadata"></div>
+    </div>
+</main>
+
+{% endblock content %}
+
+<script type="text/javascript">
+
+    </script>
+

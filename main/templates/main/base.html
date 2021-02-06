@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		 crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="{% static 'main/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'main/styling/css/all.css' %}">
+		<script type="text/javascript" src="{% static 'main/script.js' %}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		 crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		 crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		 crossorigin="anonymous"></script>
+
+		<!-- JS and CSS for DateTime Picker -->
+		<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+		<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+		{% if title %}
+		<title>Robo Robo News Application - {{ title }}</title>
+		{% else %}
+		<title>Smart Eyebrow Embroidery System</title>
+		{% endif %}
+
+		<style>
+			::-webkit-scrollbar
+            {
+                width: 12px;
+                background-color: #F5F5F5;
+            }
+
+        ::-webkit-scrollbar-thumb
+            {
+                background-color: #F90;
+                background-image: -webkit-linear-gradient(45deg,
+                                                          rgba(255, 255, 255, .2) 25%,
+                                                          transparent 25%,
+                                                          transparent 50%,
+                                                          rgba(255, 255, 255, .2) 50%,
+                                                          rgba(255, 255, 255, .2) 75%,
+                                                          transparent 75%,
+                                                          transparent)
+            }
+
+        @-webkit-keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                -webkit-transform: translate3d(-20%, 0, 0);
+                transform: translate3d(-20%, 0, 0);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform: none;
+                transform: none;
+            }
+        }
+
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                -webkit-transform: translate3d(-20%, 0, 0);
+                transform: translate3d(-20%, 0, 0);
+            }
+
+            100% {
+                opacity: 1;
+                -webkit-transform: none;
+                transform: none;
+            }
+        }
+
+        .fadeInLeft {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-name: fadeInLeft;
+            animation-name: fadeInLeft;
+        }
+
+
+    </style>
+		<script>
+			$(document).ready(function() {
+            $('.fadeInDown').show();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+	</head>
+	<body style="background-image: url('{% static 'main/img/bg-main.jpg' %}')">
+		<div id="english_content">
+            <header class="site-header">
+                <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: rgba(0, 0, 0, 0.6);
+             border-top: 3px solid red; border-bottom: 3px solid black; height: 70px;  backdrop-filter: blur(5px);">
+                    <div class="container">
+                        <a id="logobutton" class="navbar-brand mr-4" href="{% url 'main-home' %}" style="font-size: 160%; font-family: Bahnschrift;">Smart
+                            Eyebrow Embroidery System</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle"
+                         aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggle">
+                            <div class="navbar-nav mr-auto">
+                                <a id="homebtn" class="nav-item nav-link" href="{% url 'main-home' %}" style="font-size: 110%; font-family: Bahnschrift;">Home</a>
+                                <!-- <a id="aboutbtn" class="nav-item nav-link" href="{% url 'main-eyebrowSim' %}"
+                           style="font-size: 110%; font-family: Bahnschrift;">About</a> -->
+                            </div>
+                        </div>
+                        <div id="back" align="right" style="display:none">
+                            <a id="returnbtn" class="nav-item nav-link fa fa-chevron-circle-left fa-lg" href="{% url 'main-home' %}" style="color: white;"
+                             data-toggle="tooltip" data-placement="bottom" title="Return to HOME"></a>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+        <div id="chinese_content" style="display: none">
+            <header class="site-header">
+                <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: rgba(0, 0, 0, 0.6);
+             border-top: 3px solid red; border-bottom: 3px solid black; height: 70px;  backdrop-filter: blur(5px);">
+                    <div class="container">
+                        <a id="logobutton" class="navbar-brand mr-4" href="{% url 'main-home' %}" style="font-size: 160%; font-family: Bahnschrift;">智能纹眉系统</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle"
+                         aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggle">
+                            <div class="navbar-nav mr-auto">
+                                <a id="homebtn" class="nav-item nav-link" href="{% url 'main-home' %}" style="font-size: 110%; font-family: Bahnschrift;">主页</a>
+                                <!-- <a id="aboutbtn" class="nav-item nav-link" href="{% url 'main-eyebrowSim' %}"
+                           style="font-size: 110%; font-family: Bahnschrift;">About</a> -->
+                            </div>
+                        </div>
+                        <div id="back" align="right" style="display:none">
+                            <a id="returnbtn" class="nav-item nav-link fa fa-chevron-circle-left fa-lg" href="{% url 'main-home' %}" style="color: white;"
+                             data-toggle="tooltip" data-placement="bottom" title="Return to HOME"></a>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+		{% block content%}{% endblock %}
+	</body>
+
+</html>

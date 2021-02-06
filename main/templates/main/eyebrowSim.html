@@ -1,0 +1,153 @@
+{% extends "main/base.html" %}
+{% block content %}
+{% load static %}
+<script>
+    $(document).ready(function () {
+        let switch_language = document.getElementById("switch_language");
+        let sim_chinese = document.getElementById("sim_chinese");
+        let sim_english = document.getElementById("sim_english");
+        let chinese_content = document.getElementById("chinese_content");
+        let english_content = document.getElementById("english_content");
+
+        switch_language.onclick = function(){
+            if(switch_language.innerText == "中"){
+                switch_language.innerText = "English";
+                sim_chinese.style.display = "block";
+                sim_english.style.display = "none";
+                chinese_content.style.display = "block";
+                english_content.style.display = "none";
+            }else{
+                switch_language.innerText = "中";
+                sim_chinese.style.display = "none";
+                sim_english.style.display = "block";
+                chinese_content.style.display = "none";
+                english_content.style.display = "block";
+            }
+        }
+    });
+</script>
+<style>
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+<button id="switch_language" style="margin-top: 110px; margin-left: 50px">中</button>
+<main id="sim_english" role="main" class="container fadeInLeft center">
+    <div class="row">
+        <div class="col-md-5" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;"> Eyebrow Selection </h2>
+        </div>
+        <div class="col-md-7">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row content-section">
+        <div class="col-md-7" style="height: 70vh; border-right: 2px solid gray; padding-right: 80px;">
+            {% for customer in postcust%}
+            <img class="center" src="{% static 'main/PostSim/' %}{{ customer }}_postsim.jpg" height="600">
+            {% endfor %}
+        </div>
+        <div class="col-md-5" style="height: 70vh; overflow: auto;">
+                {% for img in imgcount %}
+                <form class="fadeInLeft" method="POST" action="/eyebrowResult/">
+                {% csrf_token %}
+                    <button class="btn btn-lg btn-block border-info" type="submit">
+                        <img src="{% static 'main/img/' %}{{ img }}eyebrow.png" height="100px" width="200px"/>
+                        <input type="text" name="eyebrow" value="{{ img }}" style="display:none;"/>
+                    </button>
+                </form><br>
+                {% endfor %}
+        </div><br>
+        <div class="article-metadata"></div>
+    </div>
+</main>
+
+<main id="sim_chinese" role="main" class="container fadeInLeft center" style="display: none">
+    <div class="row">
+        <div class="col-md-5" style="margin-bottom: 10px;">
+            <h2 style="padding: 13px; margin-top: 90px;">眉毛选择 </h2>
+        </div>
+        <div class="col-md-7">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade fadeInLeft" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <small> {{ message }}</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row content-section">
+        <div class="col-md-7" style="height: 70vh; border-right: 2px solid gray; padding-right: 80px;">
+            {% for customer in postcust%}
+            <img class="center" src="{% static 'main/PostSim/' %}{{ customer }}_postsim.jpg" height="600">
+            {% endfor %}
+        </div>
+        <div class="col-md-5" style="height: 70vh; overflow: auto;">
+                {% for img in imgcount %}
+                <form class="fadeInLeft" method="POST" action="/eyebrowResult/">
+                {% csrf_token %}
+                    <button class="btn btn-lg btn-block border-info" type="submit">
+                        <img src="{% static 'main/img/' %}{{ img }}eyebrow.png" height="100px" width="200px"/>
+                        <input type="text" name="eyebrow" value="{{ img }}" style="display:none;"/>
+                    </button>
+                </form><br>
+                {% endfor %}
+        </div><br>
+        <div class="article-metadata"></div>
+    </div>
+</main>
+
+{% endblock content %}
+
+<script type="text/javascript">
+        $(function(){
+            let switch_language = document.getElementById("switch_language");
+            let chinese_content = document.getElementById("chinese_content");
+            let english_content = document.getElementById("english_content");
+            let main_content_chinese = document.getElementById("main_content_chinese");
+            let main_content_english = document.getElementById("main_content_english");
+            let result_chinese = document.getElementById("result_chinese");
+            let result_english = document.getElementById("result_english");
+            let sim_chinese = document.getElementById("sim_chinese");
+            let sim_english = document.getElementById("sim_english");
+
+            switch_language.onclick = function(){
+                if(switch_language.innerText == "中"){
+                    chinese_content.style.display = "block";
+                    english_content.style.display = "none";
+                    switch_language.innerText = "English";
+                    main_content_chinese.style.display = "block";
+                    main_content_english.style.display = "none";
+                    result_chinese.style.display = "block";
+                    result_english.style.display = "none";
+                    sim_chinese.style.display = "block";
+                    sim_english.style.display = "none";
+                }else{
+                    chinese_content.style.display = "none";
+                    english_content.style.display = "block";
+                    switch_language.innerText = "中";
+                    main_content_chinese.style.display = "none";
+                    main_content_english.style.display = "block";
+                    result_chinese.style.display = "none";
+                    result_english.style.display = "block";
+                    sim_chinese.style.display = "none";
+                    sim_english.style.display = "block";
+                }
+            }
+        });
+    </script>
